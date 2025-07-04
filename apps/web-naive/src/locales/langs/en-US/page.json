@@ -10,5 +10,39 @@
     "title": "Dashboard",
     "analytics": "Analytics",
     "workspace": "Workspace"
+  },
+  "xyqt": {
+    "title": "Funny Dictation",
+    "subjects": "Subjects",
+    "books": "Books",
+    "units": "Units",
+    "wordlist": "Word List",
+    "ecdict": "Ecdict"
+  },
+  "ecdict": {
+    "id": "ID",
+    "word": "Word",
+    "translation": "Translation",
+    "phonetic": "Phonetic",
+    "definition": "Definition",
+    "bnc": "bnc",
+    "oxford": "Oxford",
+    "collins": "Collins",
+    "audio": "Audio",
+    "tag": "Tag",
+    "frq": "frq",
+    "exchange": "Exchange",
+    "detail": "Detail",
+    "pos": "Position"
+  },
+  "subject": {
+    "id": "ID",
+    "name": "Name"
+  },
+  "button": {
+    "action": "Action"
+  },
+  "grid": {
+    "removeRow": "Remove current Row"
   }
 }

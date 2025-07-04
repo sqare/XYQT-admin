@@ -10,5 +10,39 @@
     "title": "概览",
     "analytics": "分析页",
     "workspace": "工作台"
+  },
+  "xyqt": {
+    "title": "小羊趣听",
+    "subjects": "科目",
+    "books": "课本",
+    "units": "单元",
+    "wordlist": "单词表",
+    "ecdict": "Ecdict 词典"
+  },
+  "ecdict": {
+    "id": "序号",
+    "word": "单词名称",
+    "translation": "单词释义（中文）",
+    "phonetic": "音标",
+    "definition": "单词释义（英文）",
+    "bnc": "英国国家语料库词频顺序",
+    "oxford": "为牛津三千核心词汇",
+    "collins": "柯林斯星级",
+    "audio": "音频",
+    "tag": "标签",
+    "frq": "当代语料库词频顺序",
+    "exchange": "时态复数等",
+    "detail": "扩展信息",
+    "pos": "词语位置"
+  },
+  "subject": {
+    "id": "序号",
+    "name": "名称"
+  },
+  "button": {
+    "action": "操作"
+  },
+  "grid": {
+    "removeRow": "删除当前行"
   }
 }

@@ -14,12 +14,12 @@ export interface UserPayload extends UserInfo {
 }
 
 export function generateAccessToken(user: UserInfo) {
-  return jwt.sign(user, ACCESS_TOKEN_SECRET, { expiresIn: '7d' });
+  return jwt.sign(user, ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
 }
 
 export function generateRefreshToken(user: UserInfo) {
   return jwt.sign(user, REFRESH_TOKEN_SECRET, {
-    expiresIn: '30d',
+    expiresIn: '5m',
   });
 }
 

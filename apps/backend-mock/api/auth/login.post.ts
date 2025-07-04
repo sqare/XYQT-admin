@@ -6,8 +6,8 @@ import { generateAccessToken, generateRefreshToken } from '~/utils/jwt-utils';
 import { forbiddenResponse } from '~/utils/response';
 
 export default defineEventHandler(async (event) => {
-  const { password, username } = await readBody(event);
-  if (!password || !username) {
+  const { password, email } = await readBody(event);
+  if (!password || !email) {
     setResponseStatus(event, 400);
     return useResponseError(
       'BadRequestException',
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const findUser = MOCK_USERS.find(
-    (item) => item.username === username && item.password === password,
+    (item) => item.email === email && item.password === password,
   );
 
   if (!findUser) {

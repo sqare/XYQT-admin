@@ -3,33 +3,37 @@ export interface UserInfo {
   password: string;
   realName: string;
   roles: string[];
-  username: string;
+  username?: string;
   homePath?: string;
+  email: string;
 }
 
 export const MOCK_USERS: UserInfo[] = [
   {
     id: 0,
-    password: '123456',
-    realName: 'Vben',
+    password: 'Pj123456@has',
+    realName: 'Sqare',
     roles: ['super'],
     username: 'vben',
+    email: 'sqare@qq.com',
   },
   {
     id: 1,
-    password: '123456',
+    password: 'Pj123456@has',
     realName: 'Admin',
     roles: ['admin'],
     username: 'admin',
     homePath: '/workspace',
+    email: 'sqare2@qq.com',
   },
   {
     id: 2,
-    password: '123456',
+    password: 'Pj123456@has',
     realName: 'Jack',
     roles: ['user'],
     username: 'jack',
     homePath: '/analytics',
+    email: 'sqare3@qq.com',
   },
 ];
 

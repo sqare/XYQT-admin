@@ -16,6 +16,13 @@ export namespace AuthApi {
     data: string;
     status: number;
   }
+
+  export interface RegisterParams {
+    realname: string;
+    email: string;
+    password: number;
+    platform: string;
+  }
 }
 
 /**
@@ -48,4 +55,11 @@ export async function logoutApi() {
  */
 export async function getAccessCodesApi() {
   return requestClient.get<string[]>('/auth/codes');
+}
+
+/**
+ * 注册用户
+ */
+export async function registerApi(data: AuthApi.RegisterParams) {
+  return requestClient.post('/auth/register', data);
 }
