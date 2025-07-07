@@ -1,4 +1,4 @@
-import type { SubjectPage } from '@vben/types';
+import type { SubjectItem, SubjectPage } from '@vben/types';
 
 import { requestClient } from '../request';
 
@@ -17,4 +17,12 @@ export async function deleteSubject(id: number) {
       id,
     },
   });
+}
+
+export async function createSubjects(subject: SubjectItem[]) {
+  return await requestClient.post('/textbook/subjects', subject);
+}
+
+export async function updateSubjects(subject: SubjectItem[]) {
+  return await requestClient.put('/textbook/subjects', subject);
 }

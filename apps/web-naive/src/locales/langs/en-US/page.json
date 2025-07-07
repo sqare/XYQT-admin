@@ -37,12 +37,24 @@
   },
   "subject": {
     "id": "ID",
-    "name": "Name"
+    "name": "Name",
+    "noSelected": "Please select at least one row.",
+    "deleteInfo": "Success, click save to take effect.",
+    "status": "Status",
+    "enable": "Enable",
+    "disable": "Disable"
   },
   "button": {
-    "action": "Action"
+    "action": "Action",
+    "save": "Save",
+    "mark_cancel": "Delete/Cancel"
   },
   "grid": {
     "removeRow": "Remove current Row"
+  },
+  "confirm": {
+    "saveTitle": "Save",
+    "saveContent": "Make sure that you save the data, as it cannot be restored",
+    "cancel": "The operation has been canceled"
   }
 }

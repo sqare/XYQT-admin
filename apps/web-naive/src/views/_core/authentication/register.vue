@@ -1,15 +1,19 @@
 <script lang="ts" setup>
 import type { VbenFormSchema } from '@vben/common-ui';
-import type { Recordable } from '@vben/types';
 
 import { computed, h, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-import { AuthenticationRegister, z } from '@vben/common-ui';
+import { alert, AuthenticationRegister, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+
+import { registerApi } from '#/api';
 
 defineOptions({ name: 'Register' });
 
 const loading = ref(false);
+
+const router = useRouter();
 
 const formSchema = computed((): VbenFormSchema[] => {
   return [
@@ -20,7 +24,10 @@ const formSchema = computed((): VbenFormSchema[] => {
       },
       fieldName: 'email',
       label: $t('authentication.email'),
-      rules: z.string().min(1, { message: $t('authentication.emailTip') }),
+      rules: z
+        .string()
+        .min(1, { message: $t('authentication.emailTip') })
+        .email({ message: $t('authentication.emailValidErrorTip') }),
     },
     {
       component: 'VbenInputPassword',
@@ -81,9 +88,17 @@ const formSchema = computed((): VbenFormSchema[] => {
   ];
 });
 
-function handleSubmit(value: Recordable<any>) {
-  // eslint-disable-next-line no-console
-  console.log('register submit:', value);
+async function handleSubmit(value: any) {
+  value.platform = 'web';
+  await registerApi(value).then(async () => {
+    await alert({
+      title: $t('authentication.registerSuccess'),
+      content: $t('authentication.registerSuccessTip'),
+      showCancel: false,
+    }).then(() => {
+      router.push({ name: 'Login' });
+    });
+  });
 }
 </script>
 

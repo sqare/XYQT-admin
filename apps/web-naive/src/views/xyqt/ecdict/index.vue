@@ -15,7 +15,11 @@ const gridOptions: VxeGridProps<EcdictWord> = {
   columns: [
     { field: 'id', type: 'seq', title: $t('page.ecdict.id'), colId: 'id' },
     { field: 'word', title: $t('page.ecdict.word') },
-    { field: 'translation', title: $t('page.ecdict.translation') },
+    {
+      field: 'translation',
+      type: 'html',
+      title: $t('page.ecdict.translation'),
+    },
     { field: 'phonetic', title: $t('page.ecdict.phonetic') },
     { field: 'tag', title: $t('page.ecdict.tag') },
     { field: 'definition', title: $t('page.ecdict.definition') },

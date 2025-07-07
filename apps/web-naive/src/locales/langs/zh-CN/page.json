@@ -37,12 +37,24 @@
   },
   "subject": {
     "id": "序号",
-    "name": "名称"
+    "name": "名称",
+    "noSelected": "请至少选中一行数据",
+    "deleteInfo": "删除成功，点击保存后生效",
+    "status": "状态",
+    "enable": "启用",
+    "disable": "禁用"
   },
   "button": {
-    "action": "操作"
+    "action": "操作",
+    "save": "保存",
+    "mark_cancel": "删除/取消"
   },
   "grid": {
     "removeRow": "删除当前行"
+  },
+  "confirm": {
+    "saveTitle": "保存",
+    "saveContent": "请确认保存数据，保存后数据不可恢复",
+    "cancel": "操作已取消"
   }
 }

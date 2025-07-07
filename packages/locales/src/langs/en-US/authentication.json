@@ -52,5 +52,7 @@
     "center": "Align Center",
     "alignLeft": "Align Left",
     "alignRight": "Align Right"
-  }
+  },
+  "registerSuccess": "Registration successful",
+  "registerSuccessTip": "After completing the registration, go to the login page"
 }

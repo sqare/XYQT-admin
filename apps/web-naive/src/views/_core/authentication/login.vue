@@ -16,7 +16,7 @@ const authStore = useAuthStore();
 const MOCK_USER_OPTIONS: BasicOption[] = [
   {
     label: 'Super',
-    value: 'sqare@qq.com',
+    value: 'sqare2@qq.com',
   },
   {
     label: 'Admin',
@@ -57,7 +57,7 @@ const formSchema = computed((): VbenFormSchema[] => {
             );
             if (findUser) {
               form.setValues({
-                password: 'Pj123456@has',
+                password: 'Yj123456',
                 email: findUser.value,
               });
             }

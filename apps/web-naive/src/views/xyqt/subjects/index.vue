@@ -4,51 +4,88 @@ import type { SubjectItem } from '@vben/types';
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { alert, confirm, Page } from '@vben/common-ui';
+import { MingAdd, MingDelete, MingSave, MingWarning } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import { NButton, NCard, useMessage } from 'naive-ui';
+import { NButton, NCard, NFlex, NMessageProvider, useMessage } from 'naive-ui';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteSubject, getAllSubjects } from '#/api/core/xyqt';
+import { getAllSubjects } from '#/api/core/xyqt';
 
 const gridOptions: VxeGridProps<SubjectItem> = {
   columns: [
-    { type: 'seq', width: 80 },
+    { field: 'checkbox', type: 'checkbox', fixed: 'left', width: 60 },
+    { type: 'seq', maxWidth: 80, width: 60 },
     {
       field: 'name',
       title: $t('page.subject.name'),
-      editRender: { name: 'input' },
+      maxWidth: 350,
+      editRender: { name: 'VxeInput' },
     },
     {
-      slots: { default: 'action' },
-      title: $t('page.button.action'),
-      width: 'auto',
+      field: 'enable',
+      title: $t('page.subject.status'),
+      maxWidth: 200,
+      width: 120,
+      editRender: {
+        name: 'VxeSelect',
+        options: [
+          { value: true, label: $t('page.subject.enable') },
+          { value: false, label: $t('page.subject.disable') },
+        ],
+      },
     },
   ],
   minHeight: 300,
-  keepSource: true,
   id: 'id',
   toolbarConfig: {
     refresh: true,
     id: 'id',
+    slots: {
+      buttons: 'toolbarButtons',
+    },
   },
   editConfig: {
     mode: 'row',
     trigger: 'click',
   },
   border: true,
+  size: 'large',
+  keepSource: true,
   proxyConfig: {
     seq: true,
-    response: {
-      result: ({ data }) => data.subjects,
-      total: ({ data }) => data.count,
-    },
     ajax: {
       query: async ({ page }) => {
         return await getAllSubjects({
           page: page.currentPage,
           pageSize: page.pageSize,
         });
+      },
+      delete: async ({ body }) => {
+        return new Promise((resolve) => {
+          message.warning(`删除功能未实现: ${JSON.stringify(body)}`);
+          resolve({ code: 200 });
+        });
+      },
+      save: async ({ body }) => {
+        const tasks: Promise<any>[] = [];
+        body.insertRecords?.map(async (record: SubjectItem) => {
+          tasks.push(
+            new Promise<any>((resolve) => {
+              resolve({ id: record.id, method: 'insert' });
+            }),
+          );
+        });
+        return Promise.all(tasks);
+      },
+      saveSuccess: async ({ response }) => {
+        alert({
+          title: '提示',
+          content: `保存成功${response.data}`,
+        });
+      },
+      saveError: async () => {
+        // TODO 错误处理
       },
     },
   },
@@ -57,79 +94,111 @@ const gridOptions: VxeGridProps<SubjectItem> = {
 const [Grid, gridApi] = useVbenVxeGrid({ gridOptions });
 
 const message = useMessage();
-function hasEditStatus(row: SubjectItem) {
-  return gridApi.grid?.isEditByRow(row);
+function hasPendingStatus(row: SubjectItem) {
+  return gridApi.grid?.isPendingByRow(row);
 }
 
-function editRowEvent(row: SubjectItem) {
-  gridApi.grid?.setEditRow(row);
-}
-
-async function saveRowEvent(row: SubjectItem) {
-  await gridApi.grid?.clearEdit();
-
-  gridApi.setLoading(true);
-  setTimeout(() => {
-    gridApi.setLoading(false);
-    message.success(`${row.name} 保存成功`, {
-      duration: 2000,
-    });
-  }, 600);
-}
-async function deleteRowEvent(row: SubjectItem) {
+async function deleteRowEvent() {
+  const rows = gridApi.grid?.getCheckboxRecords();
+  if (!rows || rows.length === 0) {
+    message.error($t('page.subject.noSelected'));
+    return;
+  }
   confirm({
-    content: `${$t('page.grid.removeRow')} : ${row.name}`,
-    icon: 'warning',
+    title: `删除确认`,
+    content: `您正在删除选中的 ${rows.length} 条数据，请确认是否删除？`,
+    icon: MingWarning,
   })
-    .then(() => {
-      confirm('删除后数据无法恢复，请谨慎操作！')
+    .then(async () => {
+      await gridApi.grid
+        ?.removeCheckboxRow()
         .then(async () => {
-          await deleteSubject(row.id)
-            .then(() => gridApi.grid.remove(row))
-            .catch((error) => message.error(error.message));
+          message.success($t('page.subject.deleteInfo'));
         })
-        .catch(() => message.info('取消操作'));
+        .catch((error) => {
+          message.error(error.message);
+        });
     })
     .catch(() => {
-      alert('您已取消');
+      message.info('取消删除');
     });
 }
 
-const cancelRowEvent = (_row: SubjectItem) => {
-  gridApi.grid?.clearEdit();
+const cancelPendingEvent = (row: SubjectItem) => {
+  gridApi.grid?.setPendingRow(row, false);
+};
+
+const addRowEvent = () => {
+  gridApi.grid?.insertAt({}, -1);
+};
+
+const saveEvent = () => {
+  let insert = '新增的数据:';
+  gridApi.grid?.getInsertRecords().forEach((item, index) => {
+    insert += `${index + 1} : ${item.name} `;
+  });
+  confirm({
+    title: $t('page.confirm.saveTitle'),
+    content: `${$t('page.confirm.saveContent')}\n ${insert}`,
+  })
+    .then(() => {
+      gridApi.grid?.commitProxy('save');
+    })
+    .catch(() => message.info($t('page.confirm.cancel')));
 };
 </script>
 
 <template>
   <Page>
-    <!-- <template #title>科目列表</template> -->
-    <template #default>
-      <NCard class="mb-4">
-        <NButton type="primary">{{ $t('common.create') }}</NButton>
-      </NCard>
-      <NCard>
-        <Grid>
-          <template #action="{ row }">
-            <template v-if="hasEditStatus(row)">
-              <NButton quaternary type="success" @click="saveRowEvent(row)">
-                {{ $t('common.confirm') }}
+    <NMessageProvider>
+      <!-- <template #title>科目列表</template> -->
+      <template #default>
+        <NCard>
+          <Grid>
+            <template #toolbarButtons>
+              <NFlex>
+                <NButton type="primary" @click="addRowEvent">
+                  <template #icon>
+                    <MingAdd />
+                  </template>
+                  {{ $t('common.create') }}
+                </NButton>
+                <NButton type="warning" @click="deleteRowEvent">
+                  <template #icon>
+                    <MingDelete />
+                  </template>
+                  {{ $t('common.delete') }}
+                </NButton>
+                <NButton type="success" @click="saveEvent">
+                  <template #icon>
+                    <MingSave />
+                  </template>
+                  {{ $t('page.button.save') }}
+                </NButton>
+              </NFlex>
+            </template>
+            <template #action="{ row }">
+              <NButton
+                v-if="!hasPendingStatus(row)"
+                text
+                type="primary"
+                @click="deleteRowEvent()"
+              >
+                {{ $t('common.delete') }}
               </NButton>
-              <NButton quaternary type="error" @click="cancelRowEvent(row)">
+              <NButton
+                v-else
+                text
+                type="primary"
+                @click="cancelPendingEvent(row)"
+              >
                 {{ $t('common.cancel') }}
               </NButton>
             </template>
-            <template v-else>
-              <NButton quaternary type="primary" @click="editRowEvent(row)">
-                {{ $t('common.modify') }}
-              </NButton>
-              <NButton quaternary type="primary" @click="deleteRowEvent(row)">
-                {{ $t('common.delete') }}
-              </NButton>
-            </template>
-          </template>
-        </Grid>
-      </NCard>
-    </template>
+          </Grid>
+        </NCard>
+      </template>
+    </NMessageProvider>
   </Page>
 </template>
 

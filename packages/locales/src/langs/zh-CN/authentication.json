@@ -52,5 +52,7 @@
     "center": "居中",
     "alignLeft": "居左",
     "alignRight": "居右"
-  }
+  },
+  "registerSuccess": "注册成功",
+  "registerSuccessTip": "完成注册，前往登录页面"
 }
