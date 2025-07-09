@@ -4,17 +4,17 @@ import { requestClient } from '../request';
 
 export async function getAllSubjects({ page = 1, pageSize = 10 }) {
   return await requestClient.get<SubjectPage>(
-    `/textbook/subjects?page=${page}&pageSize=${pageSize}`,
+    `/textbook/subjects/page?page=${page}&pageSize=${pageSize}`,
   );
 }
 
-export async function deleteSubject(id: number) {
+export async function deleteSubjects(ids: number[]) {
   return await requestClient.delete('/textbook/subjects', {
     headers: {
       'Content-Type': 'application/json',
     },
     data: {
-      id,
+      ids,
     },
   });
 }

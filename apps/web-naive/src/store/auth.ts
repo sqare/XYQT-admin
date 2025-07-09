@@ -1,6 +1,6 @@
 import type { Recordable, UserInfo } from '@vben/types';
 
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { LOGIN_PATH } from '@vben/constants';
@@ -19,6 +19,11 @@ export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
 
   const loginLoading = ref(false);
+
+  const captchaData = reactive({
+    image: '',
+    thumb: '',
+  });
 
   /**
    * 异步处理登录操作
@@ -109,10 +114,17 @@ export const useAuthStore = defineStore('auth', () => {
     loginLoading.value = false;
   }
 
+  function setCaptchaData(data: typeof captchaData) {
+    captchaData.image = data.image;
+    captchaData.thumb = data.thumb;
+  }
+
   return {
     $reset,
     authLogin,
     fetchUserInfo,
+    captchaData,
+    setCaptchaData,
     loginLoading,
     logout,
   };

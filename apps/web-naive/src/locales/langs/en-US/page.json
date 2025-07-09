@@ -42,7 +42,8 @@
     "deleteInfo": "Success, click save to take effect.",
     "status": "Status",
     "enable": "Enable",
-    "disable": "Disable"
+    "disable": "Disable",
+    "noChange": "Data no change"
   },
   "button": {
     "action": "Action",

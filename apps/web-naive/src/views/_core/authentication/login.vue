@@ -78,6 +78,7 @@ const formSchema = computed((): VbenFormSchema[] => {
       label: $t('authentication.password'),
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
+    // TODO 验证码
     {
       component: markRaw(SliderCaptcha),
       fieldName: 'captcha',

@@ -3,14 +3,19 @@ import type { SubjectItem } from '@vben/types';
 
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
-import { alert, confirm, Page } from '@vben/common-ui';
+import { confirm, Page } from '@vben/common-ui';
 import { MingAdd, MingDelete, MingSave, MingWarning } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { NButton, NCard, NFlex, NMessageProvider, useMessage } from 'naive-ui';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getAllSubjects } from '#/api/core/xyqt';
+import {
+  createSubjects,
+  deleteSubjects,
+  getAllSubjects,
+  updateSubjects,
+} from '#/api/core/xyqt';
 
 const gridOptions: VxeGridProps<SubjectItem> = {
   columns: [
@@ -61,33 +66,48 @@ const gridOptions: VxeGridProps<SubjectItem> = {
           pageSize: page.pageSize,
         });
       },
-      delete: async ({ body }) => {
-        return new Promise((resolve) => {
-          message.warning(`删除功能未实现: ${JSON.stringify(body)}`);
-          resolve({ code: 200 });
-        });
-      },
       save: async ({ body }) => {
         const tasks: Promise<any>[] = [];
-        body.insertRecords?.map(async (record: SubjectItem) => {
-          tasks.push(
-            new Promise<any>((resolve) => {
-              resolve({ id: record.id, method: 'insert' });
-            }),
-          );
-        });
+        if (body.insertRecords.length > 0) {
+          tasks.push(createSubjects(body.insertRecords));
+        }
+        if (body.updateRecords.length > 0) {
+          tasks.push(updateSubjects(body.updateRecords));
+        }
+        if (body.removeRecords.length > 0) {
+          tasks.push(deleteSubjects(body.removeRecords.map((item) => item.id)));
+        }
         return Promise.all(tasks);
       },
-      saveSuccess: async ({ response }) => {
-        alert({
-          title: '提示',
-          content: `保存成功${response.data}`,
-        });
+      saveSuccess: async () => {
+        message.success('保存成功');
       },
       saveError: async () => {
         // TODO 错误处理
+        message.error('保存错误');
       },
     },
+  },
+  editRules: {
+    name: [
+      { required: true, message: '请输入名称', trigger: 'blur' },
+      { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
+    ],
+    enable: [
+      {
+        required: true,
+        content: '必须填写',
+        message: '请选择是否启用',
+        trigger: 'change',
+      },
+      {
+        validator({ cellValue }) {
+          if (cellValue === null) {
+            return new Error('请选择是否启用');
+          }
+        },
+      },
+    ],
   },
 };
 
@@ -133,13 +153,20 @@ const addRowEvent = () => {
 };
 
 const saveEvent = () => {
-  let insert = '新增的数据:';
-  gridApi.grid?.getInsertRecords().forEach((item, index) => {
-    insert += `${index + 1} : ${item.name} `;
-  });
+  const created_number = gridApi.grid?.getInsertRecords().length;
+  const created = created_number > 0 ? `新增${created_number}条` : '';
+  const updated_number = gridApi.grid?.getUpdateRecords().length;
+  const updated = updated_number > 0 ? `更新${updated_number}条` : '';
+  const deleted_number = gridApi.grid?.getRemoveRecords().length;
+  const deleted = deleted_number > 0 ? `删除${deleted_number}条` : '';
+  if (created_number === 0 && updated_number === 0 && deleted_number === 0) {
+    message.info($t('page.subject.noChange'));
+    return;
+  }
+  const content = `${created + updated + deleted}数据，是否保存？`;
   confirm({
     title: $t('page.confirm.saveTitle'),
-    content: `${$t('page.confirm.saveContent')}\n ${insert}`,
+    content,
   })
     .then(() => {
       gridApi.grid?.commitProxy('save');

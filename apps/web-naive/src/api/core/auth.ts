@@ -22,6 +22,10 @@ export namespace AuthApi {
     password: number;
     platform: string;
   }
+  export interface CaptchaResult {
+    image: string;
+    thumb: string;
+  }
 }
 
 /**
@@ -61,4 +65,11 @@ export async function getAccessCodesApi() {
  */
 export async function registerApi(data: any) {
   return requestClient.post('/auth/register', data);
+}
+
+/**
+ * 获取 captcha
+ */
+export async function getCaptchaApi() {
+  return requestClient.get<AuthApi.CaptchaResult>('/auth/captcha');
 }

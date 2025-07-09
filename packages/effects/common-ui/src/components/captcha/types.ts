@@ -173,3 +173,55 @@ export interface SliderRotateVerifyPassingData {
   moveDistance: number;
   moveX: number;
 }
+
+export interface GoClickCaptchaData {
+  /**
+   * @description 背景图片
+   * @default ''
+   */
+  image: string;
+  /**
+   * @description 滑块图片
+   * @default ''
+   */
+  thumb: string;
+}
+
+export interface GoClickCaptchaConfig {
+  width?: number;
+  height?: number;
+  thumbWidth?: number;
+  thumbHeight?: number;
+  verticalPadding?: number;
+  horizontalPadding?: number;
+  showTheme?: boolean;
+  title?: string;
+  buttonText?: string;
+  iconSize?: number;
+  dotSize?: number;
+}
+
+export interface GoClickCaptchaEvents {
+  reset: () => void;
+  clear: () => void;
+  refresh: () => void;
+  close: () => void;
+}
+
+export interface GoClickCaptchaProps {
+  /**
+   * @description 配置项
+   * @default {}
+   */
+  config?: GoClickCaptchaConfig;
+  /**
+   * @description 验证码数据
+   * @default {}
+   */
+  data?: GoClickCaptchaData;
+  /**
+   * @description 事件
+   * @default {}
+   */
+  events?: GoClickCaptchaEvents;
+}

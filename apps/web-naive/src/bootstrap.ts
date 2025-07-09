@@ -60,6 +60,10 @@ async function bootstrap(namespace: string) {
   const { MotionPlugin } = await import('@vben/plugins/motion');
   app.use(MotionPlugin);
 
+  // 配置验证码插件
+  // const GoCaptcha = await import('@vben/plugins/captcha');
+  // app.use(GoCaptcha);
+
   // 动态更新标题
   watchEffect(() => {
     if (preferences.app.dynamicTitle) {

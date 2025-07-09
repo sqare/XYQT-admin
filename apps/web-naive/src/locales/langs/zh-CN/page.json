@@ -42,7 +42,8 @@
     "deleteInfo": "删除成功，点击保存后生效",
     "status": "状态",
     "enable": "启用",
-    "disable": "禁用"
+    "disable": "禁用",
+    "noChange": "数据未改动"
   },
   "button": {
     "action": "操作",
