@@ -90,6 +90,14 @@ const coreRoutes: RouteRecordRaw[] = [
           title: $t('page.auth.register'),
         },
       },
+      {
+        name: 'Captcha',
+        path: 'captcha',
+        component: () => import('#/views/_core/authentication/captcha.vue'),
+        meta: {
+          title: $t('page.auth.captcha'),
+        },
+      },
     ],
   },
 ];

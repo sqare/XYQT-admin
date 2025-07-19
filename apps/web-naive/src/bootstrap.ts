@@ -8,6 +8,7 @@ import '@vben/styles';
 import '@vben/styles/naive';
 
 import { useTitle } from '@vueuse/core';
+// import GoCaptcha from 'go-captcha-vue';
 
 import { $t, setupI18n } from '#/locales';
 
@@ -15,6 +16,8 @@ import { initComponentAdapter } from './adapter/component';
 import { initSetupVbenForm } from './adapter/form';
 import App from './app.vue';
 import { router } from './router';
+
+// import 'go-captcha-vue/dist/style.css';
 
 async function bootstrap(namespace: string) {
   // 初始化组件适配器
@@ -74,6 +77,7 @@ async function bootstrap(namespace: string) {
     }
   });
 
+  // app.use(GoCaptcha);
   app.mount('#app');
 }
 

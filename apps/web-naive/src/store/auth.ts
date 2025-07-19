@@ -10,7 +10,13 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { defineStore } from 'pinia';
 
 import { notification } from '#/adapter/naive';
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import {
+  getAccessCodesApi,
+  getCaptchaApi,
+  getUserInfoApi,
+  loginApi,
+  logoutApi,
+} from '#/api';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -114,7 +120,11 @@ export const useAuthStore = defineStore('auth', () => {
     loginLoading.value = false;
   }
 
-  function setCaptchaData(data: typeof captchaData) {
+  async function fetchCaptchaData() {
+    return await getCaptchaApi();
+  }
+
+  function setCaptchaData(data: any) {
     captchaData.image = data.image;
     captchaData.thumb = data.thumb;
   }
@@ -124,6 +134,7 @@ export const useAuthStore = defineStore('auth', () => {
     authLogin,
     fetchUserInfo,
     captchaData,
+    fetchCaptchaData,
     setCaptchaData,
     loginLoading,
     logout,

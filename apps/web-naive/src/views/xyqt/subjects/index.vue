@@ -13,7 +13,7 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
   createSubjects,
   deleteSubjects,
-  getAllSubjects,
+  getSubjectsByPage,
   updateSubjects,
 } from '#/api/core/xyqt';
 
@@ -25,13 +25,14 @@ const gridOptions: VxeGridProps<SubjectItem> = {
       field: 'name',
       title: $t('page.subject.name'),
       maxWidth: 350,
+      minWidth: 150,
       editRender: { name: 'VxeInput' },
     },
     {
       field: 'enable',
       title: $t('page.subject.status'),
-      maxWidth: 200,
-      width: 120,
+      maxWidth: 100,
+      width: 80,
       editRender: {
         name: 'VxeSelect',
         options: [
@@ -61,7 +62,7 @@ const gridOptions: VxeGridProps<SubjectItem> = {
     seq: true,
     ajax: {
       query: async ({ page }) => {
-        return await getAllSubjects({
+        return await getSubjectsByPage({
           page: page.currentPage,
           pageSize: page.pageSize,
         });
@@ -176,7 +177,7 @@ const saveEvent = () => {
 </script>
 
 <template>
-  <Page>
+  <Page title="学科列表" description="编辑表格后保存">
     <NMessageProvider>
       <!-- <template #title>科目列表</template> -->
       <template #default>

@@ -4,7 +4,8 @@
     "register": "注册",
     "codeLogin": "验证码登录",
     "qrcodeLogin": "二维码登录",
-    "forgetPassword": "忘记密码"
+    "forgetPassword": "忘记密码",
+    "captcha": "验证码"
   },
   "dashboard": {
     "title": "概览",
@@ -13,11 +14,21 @@
   },
   "xyqt": {
     "title": "小羊趣听",
-    "subjects": "科目",
+    "subjects": "学科",
     "books": "课本",
     "units": "单元",
     "wordlist": "单词表",
-    "ecdict": "Ecdict 词典"
+    "ecdict": "Ecdict 词典",
+    "grade": "年级",
+    "type": "类别",
+    "search": "查询",
+    "schoolType": "学校类别",
+    "schoolTypePlaceholder": "请选择学校类别",
+    "gradePlaceholder": "请选择年级",
+    "needType": "学校类型未选择",
+    "needGrade": "年级未选择",
+    "needSubject": "学科未选择",
+    "version": "版本"
   },
   "ecdict": {
     "id": "序号",
@@ -56,6 +67,8 @@
   "confirm": {
     "saveTitle": "保存",
     "saveContent": "请确认保存数据，保存后数据不可恢复",
-    "cancel": "操作已取消"
+    "cancel": "操作已取消",
+    "deleteTitle": "删除数据",
+    "deleteContent": "请确认删除"
   }
 }

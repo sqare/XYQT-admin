@@ -202,10 +202,10 @@ export interface GoClickCaptchaConfig {
 }
 
 export interface GoClickCaptchaEvents {
-  reset: () => void;
-  clear: () => void;
-  refresh: () => void;
-  close: () => void;
+  click?: (x: number, y: number) => void;
+  refresh?: () => void;
+  close?: () => void;
+  confirm?: (dots: Array<any>, reset: () => void) => boolean;
 }
 
 export interface GoClickCaptchaProps {
@@ -224,4 +224,6 @@ export interface GoClickCaptchaProps {
    * @default {}
    */
   events?: GoClickCaptchaEvents;
+
+  onClick?: () => void;
 }

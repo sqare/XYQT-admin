@@ -1,6 +1,10 @@
-<script setup lang="ts"></script>
-<template>
-  <div>units</div>
-</template>
+<script setup lang="ts">
+import { Page } from '@vben/common-ui';
 
-<style scoped></style>
+import { NCard } from 'naive-ui';
+</script>
+<template>
+  <Page title="单元编辑" description="编辑表格后保存">
+    <NCard />
+  </Page>
+</template>

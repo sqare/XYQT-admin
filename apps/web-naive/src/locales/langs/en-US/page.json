@@ -4,7 +4,8 @@
     "register": "Register",
     "codeLogin": "Code Login",
     "qrcodeLogin": "Qr Code Login",
-    "forgetPassword": "Forget Password"
+    "forgetPassword": "Forget Password",
+    "captcha": "Captcha"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -17,7 +18,15 @@
     "books": "Books",
     "units": "Units",
     "wordlist": "Word List",
-    "ecdict": "Ecdict"
+    "ecdict": "Ecdict",
+    "grade": "Grade",
+    "type": "Type",
+    "search": "Search",
+    "schoolType": "School type",
+    "schoolTypePlaceholder": "Please select school type",
+    "needType": "School type need select",
+    "gradePlaceholder": "Please select grade",
+    "version": "Version"
   },
   "ecdict": {
     "id": "ID",
@@ -56,6 +65,8 @@
   "confirm": {
     "saveTitle": "Save",
     "saveContent": "Make sure that you save the data, as it cannot be restored",
-    "cancel": "The operation has been canceled"
+    "cancel": "The operation has been canceled",
+    "deleteTitle": "Delete data",
+    "deleteContent": "Please confirm delete data"
   }
 }

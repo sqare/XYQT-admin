@@ -25,6 +25,15 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        name: 'Version',
+        path: '/version',
+        component: () => import('#/views/xyqt/version/index.vue'),
+        meta: {
+          icon: 'mingcute:version-fill',
+          title: $t('page.xyqt.version'),
+        },
+      },
+      {
         name: 'Books',
         path: '/books',
         component: () => import('#/views/xyqt/books/index.vue'),
